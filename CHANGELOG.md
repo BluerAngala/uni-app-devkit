@@ -45,8 +45,12 @@
 - **skill:** `uni-testing` — 测试策略（Jest + uni-test + logcat）
 - **skill:** `uni-hbuilderx-cli` — HBuilderX CLI 操作
 - **reference:** `h5-design.md` — H5 端专属设计规范
+- **reference:** `h5-advanced-effects.md` — H5 高级视觉效果（毛玻璃/Grid/滚动动画/渐变/裁切）
 - **reference:** `miniprogram-design.md` — 小程序端专属设计规范
 - **reference:** `app-design.md` — App 端专属设计规范
+- **reference:** `visual-quality.md` — 视觉品质基准（间距节奏/颜色品质/排版层级/卡片/按钮/状态设计）
+- **reference:** `premium-components.md` — 高端组件参考（卡片/列表/统计/按钮组/表单/标签栏 基础版 vs 高端版）
+- **reference:** `icon-upgrade.md` — 图标升级方案（iconfont 接入/SVG 组件/风格规范）
 - **check-theme** 支持 `.check-theme-ignore.json` 白名单配置
 - **cloud-security** 完整的频率限制代码示例和阈值建议
 

@@ -19,8 +19,12 @@ skills/uni-app-style-system/
 ├── SKILL.md                              ← 你在这里（通用规则）
 ├── references/
 │   ├── design-tokens.md                  ← Token 完整表（颜色/排版/间距/阴影/动效）
-│   ├── component-guide.md                ← 组件样式示例
+│   ├── component-guide.md                ← 组件基础示例
+│   ├── visual-quality.md                 ← 视觉品质基准（间距/颜色/排版/卡片/按钮/状态）
+│   ├── premium-components.md             ← 高端组件模板（基础版 vs 高端版）
+│   ├── icon-upgrade.md                   ← 图标升级方案（iconfont/SVG 组件）
 │   ├── h5-design.md                      ← H5 端专属规范
+│   ├── h5-advanced-effects.md            ← H5 高级效果（毛玻璃/Grid/滚动动画/渐变）
 │   ├── miniprogram-design.md             ← 小程序端专属规范
 │   └── app-design.md                     ← App 端专属规范
 ```
