@@ -2,45 +2,65 @@
 
 uni-app 全流程开发规范 — 一套规范，适配所有 AI agent 工具。
 
-## 适配的工具
+## 支持的工具
 
-| 工具 | 安装方式 | 生效路径 |
-|------|---------|---------|
-| **OMP** | `/marketplace install` | `.omp/` |
-| **Claude Code** | `/marketplace install` 或 setup.sh | `.claude/` |
-| **Pi Agent** | marketplace 或 setup.sh | `.omp/`（同 OMP） |
-| **Codex** | `bash setup.sh` | `.codex/` + `AGENTS.md` |
-| **OpenCode** | `bash setup.sh` | `~/.config/opencode/`（用户级） |
-| **Agents** | `bash setup.sh` | `.agents/` |
-| **GitHub Copilot** | `bash setup.sh` | `.github/` |
+| 工具 | 项目级路径 | 全局路径 | 内容 |
+|------|-----------|---------|------|
+| **OMP** | `.omp/` | `~/.omp/agent/` | skills + rules + commands + prompts |
+| **Claude Code** | `.claude/` | `~/.claude/` | skills + rules |
+| **Agents** | `.agents/` | `~/.agents/` | skills + rules |
+| **Codex** | `.codex/` | `~/.codex/` | skills |
+| **Pi Agent** | `.pi/` | `~/.pi/` | skills + prompts |
+| **OpenCode** | `.opencode/` | `~/.config/opencode/` | skills + commands |
+| **GitHub Copilot** | `.github/` | `~/.github/` | skills + instructions |
 
 ## 安装
 
-### 方式 1: OMP / Claude Code marketplace（推荐）
+### 交互式（推荐）
+
+```bash
+git clone https://github.com/BluerAngala/uni-app-devkit.git /tmp/uni-app-devkit
+bash /tmp/uni-app-devkit/setup.sh
+```
+
+交互式会让你选择：
+1. **哪些工具** — 输入编号（如 `1,2,5`）或 `a` 全部
+2. **安装范围** — 项目级（当前目录）或全局级（所有项目可用）
+
+### 命令行
+
+```bash
+# 只装 OMP 和 Claude，项目级
+bash setup.sh --tools omp,claude --scope project
+
+# 只装 Pi Agent，全局级
+bash setup.sh --tools pi --scope global
+
+# 全部工具，项目级
+bash setup.sh --tools omp,claude,agents,codex,pi,opencode,github --scope project
+
+# 指定项目目录
+bash setup.sh --tools omp --scope project /path/to/my-project
+```
+
+### OMP / Claude Code marketplace
 
 ```
 /marketplace add BluerAngala/uni-app-devkit
 /marketplace install uni-app-devkit@uni-app-devkit --scope project
 ```
 
-### 方式 2: setup.sh（通用，适配所有工具）
+### 卸载
 
 ```bash
-# 下载并执行
-curl -fsSL https://raw.githubusercontent.com/BluerAngala/uni-app-devkit/main/setup.sh | bash
-
-# 或 clone 后本地执行
-git clone https://github.com/BluerAngala/uni-app-devkit.git /tmp/uni-app-devkit
-bash /tmp/uni-app-devkit/setup.sh
-
-# 卸载
-bash /tmp/uni-app-devkit/setup.sh --uninstall
+bash setup.sh --uninstall /path/to/project
 ```
 
-setup.sh 会：
-1. 将 rules/skills/commands/prompts 符号链接到 `.omp/`
-2. 检测已安装的工具，自动创建对应目录的符号链接
-3. 生成 `AGENTS.md` 入口文件（供 Codex / standalone 发现）
+### 查看支持的工具
+
+```bash
+bash setup.sh --list
+```
 
 ## 包含内容
 
@@ -61,25 +81,26 @@ setup.sh 会：
 
 ```
 uni-app-devkit/                       ← 源文件（唯一维护点）
-├── setup.sh                          ← 一键适配所有工具
-├── plugins/uni-app-devkit/           ← marketplace plugin
+├── setup.sh                          ← 一键安装（交互式 / 命令行）
+├── plugins/uni-app-devkit/
 │   ├── rules/                        ← 共享规则
 │   ├── skills/                       ← 共享技能
 │   ├── commands/                     ← 共享命令
 │   └── prompts/                      ← 共享提示
-└── .omp-plugin/marketplace.json      ← OMP catalog
-└── .claude-plugin/marketplace.json   ← Claude catalog
+├── .omp-plugin/marketplace.json      ← OMP marketplace
+└── .claude-plugin/marketplace.json   ← Claude marketplace
 
-安装后项目内：
-├── .omp/                             ← 符号链接 → 源文件
-├── .claude/                          ← 符号链接 → 源文件（如已安装）
-├── .agents/                          ← 符号链接 → 源文件
-├── .codex/                           ← 符号链接 → 源文件（如已安装）
-├── .github/                          ← 符号链接 → 源文件（如已安装）
-└── AGENTS.md                         ← 入口文件
+安装后项目内（符号链接 → 源文件）：
+├── .omp/        ← OMP 原生
+├── .claude/     ← Claude Code
+├── .agents/     ← Agents
+├── .codex/      ← Codex
+├── .pi/         ← Pi Agent
+├── .opencode/   ← OpenCode
+└── .github/     ← GitHub Copilot
 ```
 
-**设计原则：** 一份源文件，符号链接分发。升级时 pull 一次，所有工具自动同步。
+**设计原则：** 一份源文件，符号链接分发。`git pull` 一次，所有工具自动同步。
 
 ## License
 
