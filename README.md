@@ -1,91 +1,84 @@
 # uni-app-devkit
 
-uni-app 全流程开发规范 — OMP / Claude Code marketplace plugin。
+uni-app 全流程开发规范 — 一套规范，适配所有 AI agent 工具。
 
-## 包含什么
+## 适配的工具
 
-| 类型 | 文件 | 作用 |
-|------|------|------|
-| **rules** | `uni-app-conventions.md` | 编码约定（Options API、标签、生命周期、样式、i18n） |
-| **rules** | `uni-cloud-security.md` | uniCloud 安全规则（权限校验、数据校验、JQL 安全） |
-| **rules** | `uni-cross-platform.md` | 跨端适配规则（条件编译、CSS/API/导航差异） |
-| **skill** | `uni-app-style-system` | 设计系统规范（token 体系、主题架构、组件样式约定） |
-| **skill** | `uni-app-page-dev` | 页面开发全流程（列表页、表单页、权限、路由注册） |
-| **skill** | `uni-app-cloud-dev` | 云开发全流程（云对象、云函数、Schema、JQL） |
-| **command** | `/scaffold-page` | 一键生成管理页面骨架（list/add/edit） |
-| **command** | `/scaffold-cloud` | 一键生成云对象/云函数骨架 + Schema |
-| **command** | `/check-theme` | 扫描项目硬编码颜色、不合规单位、DOM 操作 |
-| **prompt** | `uni-code-review` | 代码审查模板（规范、安全、跨端、性能） |
+| 工具 | 安装方式 | 生效路径 |
+|------|---------|---------|
+| **OMP** | `/marketplace install` | `.omp/` |
+| **Claude Code** | `/marketplace install` 或 setup.sh | `.claude/` |
+| **Codex** | `bash setup.sh` | `.codex/` + `AGENTS.md` |
+| **OpenCode** | `bash setup.sh` | 符号链接到 `.omp/` |
+| **Agents** | `bash setup.sh` | `.agents/` |
+| **GitHub Copilot** | `bash setup.sh` | `.github/` |
 
 ## 安装
 
-### OMP / Claude Code
+### 方式 1: OMP / Claude Code marketplace（推荐）
 
 ```
 /marketplace add BluerAngala/uni-app-devkit
 /marketplace install uni-app-devkit@uni-app-devkit --scope project
 ```
 
-### 手动安装
+### 方式 2: setup.sh（通用，适配所有工具）
 
 ```bash
-# 复制到项目
-cp -r plugins/uni-app-devkit <your-project>/.omp/plugins/
+# 下载并执行
+curl -fsSL https://raw.githubusercontent.com/BluerAngala/uni-app-devkit/main/setup.sh | bash
 
-# 或只复制 skill 到 .claude/skills/
-cp -r plugins/uni-app-devkit/skills/* <your-project>/.claude/skills/
+# 或 clone 后本地执行
+git clone https://github.com/BluerAngala/uni-app-devkit.git /tmp/uni-app-devkit
+bash /tmp/uni-app-devkit/setup.sh
+
+# 卸载
+bash /tmp/uni-app-devkit/setup.sh --uninstall
 ```
 
-## 使用
+setup.sh 会：
+1. 将 rules/skills/commands/prompts 符号链接到 `.omp/`
+2. 检测已安装的工具，自动创建对应目录的符号链接
+3. 生成 `AGENTS.md` 入口文件（供 Codex / standalone 发现）
 
-### Rules（自动生效）
+## 包含内容
 
-安装后 rules 自动注入 agent 上下文，无需手动触发。
+| 层 | 名称 | 作用 | 生效方式 |
+|---|---|---|---|
+| **rules** | `uni-app-conventions` | 编码约定 | 自动，始终生效 |
+| **rules** | `uni-cloud-security` | 安全规则 | 自动，始终生效 |
+| **rules** | `uni-cross-platform` | 跨端适配 | 自动，始终生效 |
+| **skill** | `uni-app-style-system` | 设计系统 | 检测到样式修改时 |
+| **skill** | `uni-app-page-dev` | 页面开发 | 检测到页面开发时 |
+| **skill** | `uni-app-cloud-dev` | 云开发 | 检测到云函数开发时 |
+| **command** | `/scaffold-page` | 页面脚手架 | 手动触发 |
+| **command** | `/scaffold-cloud` | 云对象脚手架 | 手动触发 |
+| **command** | `/check-theme` | 扫描硬编码颜色 | 手动触发 |
+| **prompt** | `uni-code-review` | 代码审查 | 手动引用 |
 
-### Skills（按需加载）
-
-| Skill | 何时触发 |
-|-------|---------|
-| `uni-app-style-system` | 修改 CSS/SCSS、添加主题、调整布局 |
-| `uni-app-page-dev` | 新建/修改页面、CRUD 功能 |
-| `uni-app-cloud-dev` | 新建/修改云函数、云对象、Schema |
-
-### Commands（手动触发）
-
-```
-/scaffold-page product --fields name,price,status --collection opendb-product
-/scaffold-cloud product-co --collection opendb-product
-/check-theme pages/
-```
-
-## 目录结构
+## 架构
 
 ```
-uni-app-devkit/
-├── .omp-plugin/marketplace.json
-├── .claude-plugin/marketplace.json
-├── README.md
-├── LICENSE
-└── plugins/uni-app-devkit/
-    ├── skills/
-    │   ├── uni-app-style-system/
-    │   │   ├── SKILL.md
-    │   │   └── references/
-    │   ├── uni-app-page-dev/
-    │   │   └── SKILL.md
-    │   └── uni-app-cloud-dev/
-    │       └── SKILL.md
-    ├── rules/
-    │   ├── uni-app-conventions.md
-    │   ├── uni-cloud-security.md
-    │   └── uni-cross-platform.md
-    ├── commands/
-    │   ├── scaffold-page.md
-    │   ├── scaffold-cloud.md
-    │   └── check-theme.md
-    └── prompts/
-        └── uni-code-review.md
+uni-app-devkit/                       ← 源文件（唯一维护点）
+├── setup.sh                          ← 一键适配所有工具
+├── plugins/uni-app-devkit/           ← marketplace plugin
+│   ├── rules/                        ← 共享规则
+│   ├── skills/                       ← 共享技能
+│   ├── commands/                     ← 共享命令
+│   └── prompts/                      ← 共享提示
+└── .omp-plugin/marketplace.json      ← OMP catalog
+└── .claude-plugin/marketplace.json   ← Claude catalog
+
+安装后项目内：
+├── .omp/                             ← 符号链接 → 源文件
+├── .claude/                          ← 符号链接 → 源文件（如已安装）
+├── .agents/                          ← 符号链接 → 源文件
+├── .codex/                           ← 符号链接 → 源文件（如已安装）
+├── .github/                          ← 符号链接 → 源文件（如已安装）
+└── AGENTS.md                         ← 入口文件
 ```
+
+**设计原则：** 一份源文件，符号链接分发。升级时 pull 一次，所有工具自动同步。
 
 ## License
 
