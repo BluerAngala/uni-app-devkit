@@ -32,10 +32,12 @@ uniCloud-alipay/cloudfunctions/
 ```js
 const db = uniCloud.database()
 const dbCmd = db.command
+const uniID = require('uni-id-common')
 
 module.exports = {
   _before() {
-    // 每次方法调用前执行 — 权限校验
+    // ⚠️ uni-id-common 必须先 createInstance
+    this.uniIDIns = uniID.createInstance({ context: this })
     const token = this.getUniIdToken()
     if (!token) throw new Error('未登录')
   },
@@ -104,8 +106,8 @@ uniCloud-alipay/database/opendb-xxx/
   "permission": {
     "read": true,
     "create": "auth.uid != null",
-    "update": "auth.uid == doc.user_id || auth.role.includes('admin')",
-    "delete": "auth.role.includes('admin')"
+    "update": "auth.uid == doc.user_id || auth.role.indexOf('admin') > -1",
+    "delete": "auth.role.indexOf('admin') > -1"
   }
 }
 ```
@@ -167,7 +169,7 @@ const uniPay = require('uni-pay')
 
 详见 `rules/uni-cloud-security.md`，核心要点：
 
-1. **入口必须校验身份** — `uniID.checkToken(token)`
+1. **入口必须校验身份** — `uniID.createInstance({ context: this })` + `uniIDIns.checkToken(token)`
 2. **写操作必须校验权限** — 角色或所有权检查
 3. **外部输入必须校验类型** — 禁止直接拼入查询条件
 4. **敏感数据不入日志** — token、密码等

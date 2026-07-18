@@ -96,7 +96,15 @@ export default {
   methods: {
     search() {
       const query = this.query.trim()
-      this.where = query ? `name LIKE '${query}'` : ''
+      if (query) {
+        // 使用 JQL 对象语法 + RegExp 防注入，不要拼接 where 字符串
+        // ⚠️ db.RegExp 是服务端 API，客户端 unicloud-db 的 :where 用 new RegExp()
+        this.where = {
+          name: new RegExp(query, 'i'),
+        }
+      } else {
+        this.where = ''
+      }
       this.$nextTick(() => {
         this.$refs.udb.loadData()
       })

@@ -143,18 +143,18 @@ if [[ "${1:-}" == "--uninstall" ]]; then
     for cap in "${CAP_LIST[@]}"; do
       case "$cap" in
         skills)
-          for sname in uni-app-style-system uni-app-page-dev uni-app-cloud-dev; do
+          for sname in uni-app-style-system uni-app-page-dev uni-app-cloud-dev uni-testing uni-hbuilderx-cli; do
             target="$UNINSTALL_DIR/$proj_dir/skills/$sname"
             [ -L "$target" ] && { rm "$target"; info "  已移除 $target"; }
           done ;;
         rules)
           if [[ "$id" == "github" ]]; then
-            for rname in uni-app-conventions uni-cloud-security uni-cross-platform; do
+            for rname in uni-app-conventions uni-cloud-security uni-cross-platform uni-http uni-state-management uni-typescript uni-i18n uni-git uni-performance; do
               target="$UNINSTALL_DIR/$proj_dir/instructions/${rname}.instructions.md"
               [ -L "$target" ] && { rm "$target"; info "  已移除 $target"; }
             done
           else
-            for rname in uni-app-conventions.md uni-cloud-security.md uni-cross-platform.md; do
+            for rname in uni-app-conventions.md uni-cloud-security.md uni-cross-platform.md uni-http.md uni-state-management.md uni-typescript.md uni-i18n.md uni-git.md uni-performance.md; do
               target="$UNINSTALL_DIR/$proj_dir/rules/$rname"
               [ -L "$target" ] && { rm "$target"; info "  已移除 $target"; }
             done

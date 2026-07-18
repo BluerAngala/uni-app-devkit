@@ -1,222 +1,119 @@
 ---
 name: uni-app-style-system
-description: "Use when modifying CSS/SCSS, adding themes, adjusting layouts, or creating new components in uni-app projects. Provides the design token system, theme architecture, and component style conventions."
+description: "uni-app 设计系统入口。修改样式前先读本文件，再按当前目标端读对应的端规范。"
 tags: [uni-app, design-system, scss, theme, cross-platform]
 ---
 
-# uni-app 设计系统规范
+# uni-app 设计系统
 
-本 skill 定义 uni-app 项目的完整设计 token 体系、主题架构和组件样式约定。
-修改任何样式文件前，先读本文件；新建组件前，先读 `references/design-tokens.md`。
+本 skill 是设计系统的入口。修改样式时的阅读顺序：
 
-## 快速规则
+1. **本文件**（通用规则） — 始终生效
+2. **端规范** — 按目标平台读对应文件
+3. **参考文件** — token 表、组件示例
 
-1. **禁止硬编码颜色值** — 所有颜色必须引用 `uni.scss` 变量或 `getTheme()` 函数
-2. **单位用 rpx** — 响应式布局用 rpx，固定尺寸用 px，禁止 rem/vh/vw
-3. **数据驱动样式** — 用 `:class` / `:style` / `v-if`，禁止 DOM 操作
-4. **深色模式兼容** — 所有颜色必须通过 `$themes` map 支持主题切换
-
-## 核心文件
-
-| 文件 | 作用 | 何时编辑 |
-|------|------|----------|
-| `uni.scss` | 全局 SCSS 变量 + `$themes` map | 新增颜色 token、新增主题 |
-| `common/theme.scss` | `themeify` mixin + `getTheme()` 函数 | 修改主题切换逻辑 |
-| `common/uni.css` | 全局布局 class | 新增通用布局 class |
-| `App.vue` | `@import` 上述三个文件 | 不需要编辑 |
-
-## 设计 Token 体系
-
-### 颜色层级
+## 文件结构
 
 ```
-语义层（$themes map）        → primary-color / success-color / warn-color / warning-color / error-color
-基础层（$uni-* 变量）        → $uni-text-color / $uni-bg-color / $uni-border-color
-组件层（getTheme() 函数）    → getTheme('primary-color')
+skills/uni-app-style-system/
+├── SKILL.md                              ← 你在这里（通用规则）
+├── references/
+│   ├── design-tokens.md                  ← Token 完整表（颜色/排版/间距/阴影/动效）
+│   ├── component-guide.md                ← 组件样式示例
+│   ├── h5-design.md                      ← H5 端专属规范
+│   ├── miniprogram-design.md             ← 小程序端专属规范
+│   └── app-design.md                     ← App 端专属规范
 ```
 
-**使用优先级：** 语义层 > 基础层 > 组件层
+## 通用规则（所有端必须遵守）
 
-### 何时用哪个
+### 1. Token 系统
 
-| 场景 | 用法 | 示例 |
-|------|------|------|
-| 需要随主题切换 | `@include themeify` + `getTheme()` | 按钮背景、链接色、激活态 |
-| 不随主题切换 | `$uni-*` 变量 | 正文色、边框色、背景色 |
-| 全新颜色 | 加入 `$themes` map 的每个主题 | 新增 brand 色 |
+- **禁止硬编码颜色值** — 所有颜色必须引用 `$uni-*` 变量或 `getTheme()`
+- **单位** — rpx（响应式）或 px（固定），禁止 rem/vh/vw
+- **间距** — 基于 4px 网格（`$uni-space-1` ~ `$uni-space-12`）
+- **圆角** — 全局统一一套（`$uni-radius-sm` / `base` / `lg` / `xl` / `full`）
+- **阴影** — 3 级深度（`$uni-shadow-sm` / `base` / `lg`），小程序用边框模拟
 
-### 主题切换的实际用法
+详细 token 值见 `references/design-tokens.md`。
+
+### 2. 主题系统
+
+- **统一机制** — `$themes` map + `themeify` mixin + 根元素 class 切换
+- **禁止混用** — 不要同时用 `getTheme()` 和 CSS `var()` 变量
+- **深色模式** — 所有颜色必须在 light/dark 两个主题下都有值
+- **切换方式** — 运行时切换根元素 class（`.theme-light` / `.theme-dark`）
 
 ```scss
-// ✅ 正确 — 需要随主题切换的颜色
+// 正确
 .my-button {
   @include themeify {
-    $primary-color: getTheme('primary-color');
-    background-color: $primary-color;
-    border-color: $primary-color;
+    background-color: getTheme('primary-color');
   }
 }
 
-// ✅ 正确 — 不随主题切换的颜色，直接用 $uni-* 变量
-.my-box {
-  border: 1px solid $uni-border-color;
-  color: $uni-text-color;
-  background-color: $uni-bg-color;
-}
-
-// ❌ 错误 — 硬编码颜色值
-.my-text {
-  color: #333;           // 应该用 $uni-text-color
-  background: #2979ff;   // 应该用 getTheme('primary-color')
-}
+// 错误 — 硬编码
+.my-button { background-color: #2979ff; }
 ```
 
-### getTheme() 可用的 key
+### 3. 数据驱动样式
 
-这些 key 在 `$themes` map 中定义，每个主题都有对应值：
+- 用 `:class` / `:style` 绑定样式，禁止 DOM 操作
+- 不操作 `document.style` / `classList`
+- 用 `v-if` / `v-show` 控制显隐，不用 CSS `display: none`
 
-| Key | default 主题色值 | 用途 |
-|-----|-----------------|------|
-| `primary-color` | `#2979ff` | 主操作、链接、激活态 |
-| `success-color` | `#18bc37` | 成功状态 |
-| `warn-color` | `#e43d33` | 警告/危险（按钮 type="warn"） |
-| `warning-color` | `#f3a73f` | 警告状态（tag 等） |
-| `error-color` | `#e43d33` | 错误状态 |
+### 4. 组件规范
 
-### 文字色规范
+- 按钮：主操作 `type="primary"`，危险 `type="warn"`，次要 `type="default"`
+- 表格：`<uni-table>` + `border` + `stripe`
+- 表单：`<uni-forms>` + `label-position="left"`
+- 弹窗：`<uni-popup>`，信息确认 400px，表单 600px
+- 最小触控区域：48px
 
-| 语义 | 变量 | 色值 | 用途 |
-|------|------|------|------|
-| 主文字 | `$uni-text-color` | `#333` | 标题、正文 |
-| 辅助文字 | `$uni-text-color-grey` | `#999` | 次要信息、placeholder |
-| 禁用文字 | `$uni-text-color-disable` | `#c0c0c0` | 禁用态 |
-| 反色文字 | `$uni-text-color-inverse` | `#fff` | 深色背景上 |
+详见 `references/component-guide.md`。
 
-### 间距体系
+### 5. 一致性锁定
 
-| Token | 值 | 用途 |
-|-------|-----|------|
-| `$uni-spacing-col-sm` | `5px` | 紧凑间距 |
-| `$uni-spacing-col-base` | `10px` | 默认垂直间距 |
-| `$uni-spacing-col-lg` | `15px` | 宽松垂直间距 |
-| `$uni-spacing-row-sm` | `10px` | 紧凑水平间距 |
-| `$uni-spacing-row-base` | `15px` | 默认水平间距 |
-| `$uni-spacing-row-lg` | `20px` | 宽松水平间距 |
+- **颜色一致性** — 选定主色调后整站统一
+- **圆角一致性** — 选定一套后全局统一
+- **间距一致性** — 同级元素用同一 token
 
-### 字号体系
+### 6. 禁用清单
 
-| Token | 值 | 用途 |
-|-------|-----|------|
-| `$uni-font-size-sm` | `12px` | 辅助文本、标签 |
-| `$uni-font-size-base` | `14px` | 正文 |
-| `$uni-font-size-lg` | `16px` | 小标题 |
-| `$uni-font-size-title` | `20px` | 页面标题 |
+| 禁止 | 替代 |
+|------|------|
+| 硬编码颜色值 | `$uni-*` 变量 / `getTheme()` |
+| rem/vh/vw 单位 | rpx / px |
+| DOM 操作 | `:class` / `:style` |
+| `<div>` / `<span>` / `<img>` | `<view>` / `<text>` / `<image>` |
+| 混用 `getTheme()` 和 CSS `var()` | 统一用 `$themes` + class |
+| 对比度 < 4.5:1 的文字 | 用 `$uni-text-color` 系列 |
+| emoji 做图标 | SVG / icon font |
+| 纯黑 `#000` 做页面背景 | `$uni-bg-color` |
 
-### 圆角体系
+### 7. 深色模式 Checklist
 
-| Token | 值 | 用途 |
-|-------|-----|------|
-| `$uni-border-radius-sm` | `3px` | tag、badge |
-| `$uni-border-radius-base` | `5px` | 按钮、输入框 |
-| `$uni-border-radius-lg` | `10px` | 卡片、弹窗 |
-| `$uni-border-radius-circle` | `50%` | 头像 |
+- [ ] 所有颜色通过 token，无硬编码
+- [ ] light/dark 双主题下对比度 ≥ 4.5:1
+- [ ] 输入框、表单深色背景不与页面融合
+- [ ] 图标/图片有深色模式版本或加蒙层
 
-## 主题架构
+## 端规范选择
 
-### 添加新主题
+| 你的目标平台 | 读哪个文件 |
+|-------------|-----------|
+| H5（Web） | `references/h5-design.md` |
+| 微信/支付宝/字节等小程序 | `references/miniprogram-design.md` |
+| App（iOS / Android） | `references/app-design.md` |
+| 多端同时开发 | 三个都读，取交集 |
 
-在 `uni.scss` 的 `$themes` map 中为每个现有主题添加新 key：
+## 交付 Checklist
 
-```scss
-$themes: (
-  default: (
-    primary-color: $uni-color-primary,
-    success-color: $uni-color-success,
-    warn-color: $uni-color-error,
-    warning-color: $uni-color-warning,
-    error-color: $uni-color-error,
-    brand-color: #ff6b35,        // ← 新增
-  ),
-  green: (
-    primary-color: #42b983,
-    success-color: $uni-color-success,
-    warn-color: $uni-color-error,
-    warning-color: $uni-color-warning,
-    error-color: $uni-color-error,
-    brand-color: #42b983,        // ← 新增，每个主题都要有
-  ),
-);
-```
-
-**关键：每个新 key 必须在所有主题中都有值，否则 `getTheme()` 会返回 null。**
-
-### 在组件中使用新 token
-
-```scss
-.my-brand-element {
-  @include themeify {
-    $brand-color: getTheme('brand-color');
-    color: $brand-color;
-    border-color: $brand-color;
-  }
-}
-```
-
-### 添加全新主题
-
-```scss
-// 1. 在 $themes map 中添加
-dark: (
-  primary-color: #4d9fff,
-  success-color: #2dd47b,
-  warn-color: #f87171,
-  warning-color: #fbbf24,
-  error-color: #f87171,
-  brand-color: #ff8c5a,
-),
-
-// 2. 运行时切换（store/modules/app.js）
-document.body.dataset.theme = 'dark'
-
-// 3. 持久化
-uni.setStorageSync('uni_admin_theme', 'dark')
-```
-
-## 组件样式约定
-
-### 按钮
-
-- 主操作：`type="primary"` → 对应 `getTheme('primary-color')`
-- 危险操作：`type="warn"` → 对应 `getTheme('warn-color')`
-- 次要操作：`type="default"`
-- 尺寸统一：`size="mini"`
-
-### 表格
-
-- 使用 `<uni-table>` 组件，`border` + `stripe`
-- 操作列用 `link-btn` class（已自动跟随主题色）
-
-### 表单
-
-- 使用 `<uni-forms>` 组件
-- label 位置统一：`label-position="left"`
-
-### 弹窗
-
-- 使用 `<uni-popup>` 组件
-- 宽度：信息确认类 `400px`，表单类 `600px`
-
-## 样式 Checklist
-
-修改或新建组件时，逐项检查：
-
-- [ ] 颜色用 `$uni-*` 变量或 `getTheme()`，无硬编码十六进制值
-- [ ] 单位用 rpx/px，无 rem/vh/vw
-- [ ] 不操作 DOM class/style
-- [ ] 新增颜色已加入 `$themes` 的**所有主题**
-- [ ] i18n 文本用 `$t()` 包裹
-
-## 参考文件
-
-- `references/design-tokens.md` — 完整 token 列表和换算表
-- `references/component-guide.md` — 各组件的样式用法示例
+- [ ] 颜色合规（无硬编码）
+- [ ] 深色模式正常
+- [ ] 单位正确（rpx/px）
+- [ ] 触控区域 ≥ 48px
+- [ ] 过渡动画 150-300ms
+- [ ] i18n 文本用 `$t()`
+- [ ] **已读目标端的专属规范并遵守**
+- [ ] 至少在两个平台验证过

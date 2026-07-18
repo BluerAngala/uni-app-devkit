@@ -34,7 +34,8 @@ const uniID = require('uni-id-common')
 
 module.exports = {
   _before() {
-    // 权限校验
+    // ⚠️ uni-id-common 必须先 createInstance
+    this.uniIDIns = uniID.createInstance({ context: this })
     const token = this.getUniIdToken()
     if (!token) throw new Error('未登录')
   },
@@ -111,7 +112,6 @@ module.exports = {
     if (!Array.isArray(ids) || !ids.length) {
       return { code: 400, message: '缺少 ids' }
     }
-    const dbCmd = db.command
     await db.collection('<集合名>').where({
       _id: dbCmd.in(ids)
     }).remove()
@@ -161,10 +161,10 @@ exports.main = async (event, context) => {
   "bsonType": "object",
   "required": ["name"],
   "permission": {
-    "read": true,
+    "read": "auth.uid != null",
     "create": "auth.uid != null",
     "update": "auth.uid != null",
-    "delete": "auth.role.includes('admin')"
+    "delete": "auth.role.indexOf('admin') > -1"
   },
   "properties": {
     "_id": { "description": "ID" },

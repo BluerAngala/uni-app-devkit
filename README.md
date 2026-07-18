@@ -69,9 +69,17 @@ bash setup.sh --list
 | **rules** | `uni-app-conventions` | 编码约定 | 自动，始终生效 |
 | **rules** | `uni-cloud-security` | 安全规则 | 自动，始终生效 |
 | **rules** | `uni-cross-platform` | 跨端适配 | 自动，始终生效 |
+| **rules** | `uni-http` | 网络请求封装 | 自动，始终生效 |
+| **rules** | `uni-state-management` | 状态管理 (Pinia) | 自动，始终生效 |
+| **rules** | `uni-typescript` | TypeScript 规范 | 按需加载 |
+| **rules** | `uni-i18n` | 国际化规范 | 自动，始终生效 |
+| **rules** | `uni-git` | Git/提交规范 | 自动，始终生效 |
+| **rules** | `uni-performance` | 性能规范 | 自动，始终生效 |
 | **skill** | `uni-app-style-system` | 设计系统 | 检测到样式修改时 |
 | **skill** | `uni-app-page-dev` | 页面开发 | 检测到页面开发时 |
 | **skill** | `uni-app-cloud-dev` | 云开发 | 检测到云函数开发时 |
+| **skill** | `uni-testing` | 测试策略 | 检测到测试相关时 |
+| **skill** | `uni-hbuilderx-cli` | HBuilderX CLI 操作 | 检测到编译/运行/日志/发布时 |
 | **command** | `/scaffold-page` | 页面脚手架 | 手动触发 |
 | **command** | `/scaffold-cloud` | 云对象脚手架 | 手动触发 |
 | **command** | `/check-theme` | 扫描硬编码颜色 | 手动触发 |

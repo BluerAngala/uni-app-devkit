@@ -42,11 +42,16 @@ console.log('H5 only')
 
 | 标识 | 含义 |
 |------|------|
-| `H5` | 网页 |
+| `H5`（别名 `WEB`） | 网页 |
 | `APP-PLUS` | App（nvue 和 vue 都用这个） |
+| `APP-HARMONY` | 鸿蒙 App |
 | `MP-WEIXIN` | 微信小程序 |
 | `MP-ALIPAY` | 支付宝小程序 |
+| `MP-KUAISHOU` | 快手小程序 |
+| `MP-JD` | 京东小程序 |
+| `MP-XHS` | 小红书小程序 |
 | `MP` | 所有小程序 |
+| `MP-HARMONY` | 鸿蒙小程序 |
 
 ## 关键差异
 
@@ -98,12 +103,14 @@ uni.redirectTo({ url: '/pages/xxx/xxx' })
 ### 样式穿透
 
 ```scss
-// H5 用 ::v-deep
+// ✅ 推荐（dart-sass 已废弃 /deep/）
 ::v-deep .uni-forms-item__label { color: #333; }
 
-// 小程序用 /deep/（部分支持）
+// ⚠️ 仅在 node-sass 环境下使用 /deep/
 /deep/ .uni-forms-item__label { color: #333; }
 ```
+
+**注意：** HBuilderX 4.56+ Vue 2 项目默认使用 dart-sass 替代 node-sass，此时 `/deep/` 会报错，必须用 `::v-deep`。
 
 ## 跨端 Checklist
 

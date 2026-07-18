@@ -28,14 +28,15 @@ alwaysApply: true
 | `<div>` / `<span>` / `<img>` / `<a>` / `<ul>` / `<li>` | `<view>` / `<text>` / `<image>` / `<navigator>` |
 | `this.$router.push()` | `uni.navigateTo()` |
 | `this.$route.query` | `onLoad(options)` 参数 |
-| `document.getElementById()` | `uni.createSelectorQuery()` |
-| `localStorage` / `sessionStorage` | `uni.setStorageSync()` / `uni.getStorageSync()` |
+| `document.getElementById()` | `uni.createSelectorQuery().in(this)` |
+| `localStorage` / `sessionStorage` | `uni.setStorageSync()` / `uni.getStorageSync()`（必须 try-catch） |
 | `axios` / `fetch` | `uni.request()` 或项目 `$request` |
 | `window` / `document` | uni-app API |
 
 ## 3. 生命周期
 
-- 页面用 `onLoad` / `onShow` / `onReady` / `onHide`，不用 `created` / `mounted`
+- **页面**用 `onLoad` / `onShow` / `onReady` / `onHide`，不用 `created` / `mounted`
+- **组件**只能用 Vue 标准生命周期（`created` / `mounted` 等），不能用页面级钩子
 - 路由参数在 `onLoad(options)` 中获取
 
 ## 4. 样式
