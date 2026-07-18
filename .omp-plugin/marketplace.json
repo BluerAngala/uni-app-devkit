@@ -19,8 +19,8 @@
       "homepage": "https://github.com/BluerAngala/uni-app-devkit",
       "license": "MIT",
       "keywords": ["uni-app", "unicloud", "vue", "cross-platform", "admin", "devkit"],
-      "commands": ["scaffold-page", "scaffold-cloud"],
-      "rules": ["uni-app-conventions", "uni-cloud-security"]
+      "commands": ["scaffold-page", "scaffold-cloud", "check-theme"],
+      "rules": ["uni-app-conventions", "uni-cloud-security", "uni-cross-platform"]
     }
   ]
 }
