@@ -125,7 +125,8 @@ export default {
   methods: {
     search() {
       const q = this.query.trim()
-      this.where = q ? `name LIKE '${q}'` : ''
+      // 使用 JQL 对象语法 + RegExp 防注入，不要拼接 where 字符串
+      this.where = q ? { name: new RegExp(q, 'i') } : ''
       this.$nextTick(() => this.$refs.udb.loadData())
     },
     onqueryload(data) {},

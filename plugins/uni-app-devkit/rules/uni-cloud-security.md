@@ -67,7 +67,8 @@ if (typeof name !== 'string' || name.length > 50) {
 
 ```js
 // common/rate-limiter.js
-const LIMIT_MAP = new Map()  // 生产环境用 Redis
+// ⚠️ 开发环境专用，生产环境请替换为 Redis 或 uniCloud KV 存储
+const LIMIT_MAP = new Map()
 
 /**
  * 简易限流器（滑动窗口）

@@ -182,7 +182,7 @@ cli pack --project <项目名> --platform ios
 cli pack status --project <项目名>
 
 # 取消打包
-cli pack cancel --project <项目名> --platform app-android
+cli pack cancel --project <项目名> --platform android
 ```
 
 参数说明：

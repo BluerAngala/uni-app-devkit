@@ -8,7 +8,7 @@ alwaysApply: true
 
 ## 1. 框架选择
 
-- **使用 Pinia**（仅支持 Vue 3，Vue 2 项目暂不支持 Pinia）
+- **使用 Pinia**（uni-app 官方推荐 Vue 3 + Pinia。Vue 2 项目如需 Pinia 需额外配置 `@pinia/vue2-plugin`，但不推荐）
 - 禁止 Vuex（Pinia 是 Vue 官方推荐的下一代状态管理）
 - uni-app 必须用 `createSSRApp`（不是 `createApp`），Pinia 实例必须在 `createApp()` 工厂函数中 return
 

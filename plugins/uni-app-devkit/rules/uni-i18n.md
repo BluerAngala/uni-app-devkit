@@ -188,8 +188,9 @@ export const useAppStore = defineStore('app', {
     setLocale(locale) {
       this.locale = locale
       uni.setStorageSync('app_language', locale)
-      // uni-app 的 i18n 切换
-      this.$i18n.locale = locale
+      // uni-app 的 i18n 切换方式取决于使用的方案：
+      // vue-i18n: this.$i18n.locale = locale
+      // uni-app 内置: 通过 store 的 locale 驱动模板中的 $t()
     },
   },
 })
@@ -198,7 +199,7 @@ export const useAppStore = defineStore('app', {
 ## 7. 新增文本流程
 
 1. 在 `i18n/zh-Hans.json` 中添加 key（基准语言）
-2. 同步到 `zh-Hans.json`、`en.json`（至少这两个）
+2. 同步到 `zh-Hant.json`、`en.json`（至少这两个）
 3. 模板中使用 `$t('key')`
 4. 代码中使用 `this.$t('key')` 或 `uni.$t('key')`
 

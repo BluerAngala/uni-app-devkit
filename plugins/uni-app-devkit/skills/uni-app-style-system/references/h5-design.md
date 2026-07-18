@@ -200,10 +200,10 @@ input, textarea {
 /* #ifdef H5 */
 // H5 可以用 CSS 验证状态
 input:invalid {
-  border-color: getTheme('danger-color');
+  border-color: #e43d33;  /* danger-color，getTheme() 不能直接用于 rgba() */
 }
 input:focus:invalid {
-  box-shadow: 0 0 0 3px rgba(getTheme('danger-color'), 0.2);
+  box-shadow: 0 0 0 3px rgba(228, 61, 51, 0.2);
 }
 /* #endif */
 ```

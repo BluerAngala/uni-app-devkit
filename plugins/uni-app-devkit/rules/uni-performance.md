@@ -86,7 +86,7 @@ alwaysApply: true
 超过 100 条的列表必须用虚拟滚动或分页加载。
 
 ```vue
-<!-- 使用 uni-ui 的虚拟列表组件 -->
+<!-- 使用 uni-ui 的虚拟列表组件（需安装: npm install @dcloudio/uni-ui） -->
 <virtual-list :height="800" :item-height="80" :list="list">
   <template #default="{ item }">
     <view class="list-item">{{ item.name }}</view>

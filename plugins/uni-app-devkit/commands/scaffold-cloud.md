@@ -38,6 +38,8 @@ module.exports = {
     this.uniIDIns = uniID.createInstance({ context: this })
     const token = this.getUniIdToken()
     if (!token) throw new Error('未登录')
+    // 验证 token 有效性
+    this.authInfo = this.uniIDIns.checkToken(token)
   },
 
   _after(error, result) {

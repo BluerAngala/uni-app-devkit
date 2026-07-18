@@ -126,7 +126,7 @@ npx uni-test mp-weixin --testcaseFile tests/login.test.js
 ### 配置
 
 ```js
-// jest.config.js
+// jest.config.js（项目根目录）
 module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'json', 'vue'],
@@ -247,7 +247,7 @@ describe('登录流程', () => {
 | app-harmony | 真机 + 模拟器 | 需鸿蒙环境 |
 | mp-weixin 等 | — | 编译后自动测试 |
 
-## 6. 完整 CI 流程
+### 完整 CI 流程
 
 ```bash
 #!/bin/bash
@@ -258,7 +258,7 @@ echo "=== 1. 编译微信小程序 ==="
 npx uni build -p mp-weixin
 
 echo "=== 2. 运行单元测试 ==="
-npx jest --config jest.config.js
+npx jest  # 使用根目录 jest.config.js
 
 echo "=== 3. 启动日志捕获 ==="
 npx uni-logcat mp-weixin --mode lastBuild > runtime.log 2>&1 &
@@ -278,7 +278,7 @@ echo "=== 全部通过 ==="
 ```json
 {
   "scripts": {
-    "test": "jest --config jest.config.js",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:e2e": "npx uni build -p mp-weixin && npx uni-test mp-weixin --testcaseFile tests/e2e.test.js",

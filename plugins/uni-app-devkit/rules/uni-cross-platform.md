@@ -29,9 +29,9 @@ console.log('H5 only')
 ```
 
 ```scss
-/* CSS */
+/* CSS 条件编译示例 */
 /* #ifdef H5 */
-.uni-nav-menu { height: 100vh; }
+.uni-nav-menu { height: 100%; }  /* H5 也推荐用 % 而非 vh */
 /* #endif */
 /* #ifndef H5 */
 .uni-nav-menu { height: 100%; }

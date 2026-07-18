@@ -1,7 +1,7 @@
 ---
 name: uni-typescript
 description: "uni-app TypeScript 规范。适用于 .vue 文件的 TS 声明、云对象类型定义、类型导入的编写和审查。"
-alwaysApply: false
+alwaysApply: true
 ---
 
 # TypeScript 规范
@@ -15,8 +15,8 @@ alwaysApply: false
 ## 2. Vue 文件中的 TS
 
 ```vue
-<script lang=\"ts\">
-import Vue, { PropType } from 'vue'
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
 
 interface Product {
   _id: string
@@ -25,7 +25,7 @@ interface Product {
   status: number
 }
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     product: {
       type: Object as PropType<Product>,

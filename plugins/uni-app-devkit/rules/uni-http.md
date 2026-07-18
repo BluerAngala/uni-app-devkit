@@ -116,20 +116,15 @@ async submit() {
 
 ## 5. 环境区分
 
-环境变量取值方式取决于编译器：
+环境变量取值方式取决于编译器，不需要条件编译：
 
 ```js
 // utils/config.js
-// webpack（Vue 2 项目）用 process.env.VUE_APP_*
-// Vite（Vue 3 项目）用 import.meta.env.VITE_*
-// 以下用条件编译兼容两种：
-
-// #ifdef VUE3
+// Vue 3 + Vite 项目：
 const BASE_URL = import.meta.env.VITE_BASE_URL || ''
-// #endif
-// #ifndef VUE3
-const BASE_URL = process.env.VUE_APP_BASE_URL || ''
-// #endif
+
+// Vue 2 + webpack 项目（替换上一行）：
+// const BASE_URL = process.env.VUE_APP_BASE_URL || ''
 
 export default {
   baseUrl: BASE_URL,
@@ -140,11 +135,11 @@ export default {
 
 | 编译器 | 变量前缀 | 定义文件 |
 |--------|---------|----------|
-| webpack (Vue 2) | `VUE_APP_` | `.env` / `.env.development` / `.env.production` |
 | Vite (Vue 3) | `VITE_` | `.env` / `.env.development` / `.env.production` |
+| webpack (Vue 2) | `VUE_APP_` | `.env` / `.env.development` / `.env.production` |
 
 - uniCloud 的环境通过 `uniCloud-alipay` / `uniCloud-tcb` 目录自动区分
-- 前端 HTTP 接口的环境通过 `process.env.NODE_ENV` 或条件编译区分
+- 前端 HTTP 接口的环境通过 `process.env.NODE_ENV` 区分
 
 ## 6. 禁止事项
 

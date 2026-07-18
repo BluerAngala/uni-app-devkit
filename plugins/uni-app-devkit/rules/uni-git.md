@@ -138,6 +138,7 @@ package-lock.json
 # 构建产物
 dist/
 unpackage/
+unpackage/
 
 # IDE
 .idea/

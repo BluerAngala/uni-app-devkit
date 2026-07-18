@@ -1,6 +1,6 @@
 ---
 name: uni-app-conventions
-description: "uni-app (uni-admin) 项目编码约定。适用于所有 .vue、.js、.scss 文件的编写和审查。"
+description: "uni-app 项目编码约定。适用于所有 .vue、.js、.scss 文件的编写和审查。section 6 为 uni-admin 专属。"
 alwaysApply: true
 ---
 
@@ -11,6 +11,7 @@ alwaysApply: true
 ## 1. Vue API
 
 - **仅 Options API**，禁止 Composition API（`setup()`、`<script setup>`、`ref()`、`computed()` 等）
+- **目标 Vue 3**：新项目必须用 Vue 3 + `createSSRApp`。Vue 2 为遗留模式，不新增 Vuex 等 Vue 2 专属功能
 - Vue 2/3 兼容：所有 Vue API 必须用条件编译
   ```js
   // #ifdef VUE3
@@ -29,7 +30,7 @@ alwaysApply: true
 | `this.$router.push()` | `uni.navigateTo()` |
 | `this.$route.query` | `onLoad(options)` 参数 |
 | `document.getElementById()` | `uni.createSelectorQuery().in(this)` |
-| `localStorage` / `sessionStorage` | `uni.setStorageSync()` / `uni.getStorageSync()`（必须 try-catch） |
+| `localStorage` / `sessionStorage` | `uni.setStorageSync()` / `uni.getStorageSync()` |
 | `axios` / `fetch` | `uni.request()` 或项目 `$request` |
 | `window` / `document` | uni-app API |
 
@@ -60,7 +61,9 @@ alwaysApply: true
 
 常用：`H5`、`APP-PLUS`、`MP-WEIXIN`、`MP-ALIPAY`
 
-## 6. 管理页面结构
+## 6. 管理页面结构（uni-admin 专属）
+
+**以下规则仅适用于 uni-admin 项目**，普通 uni-app 项目跳过此节。
 
 所有管理页面必须用 `<fix-top-window>` 包裹：
 
