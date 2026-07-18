@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# OMP/Claude project files (created by setup.sh, not source)
+.omp/
+.claude/
+.agents/
+.codex/
+.pi/
+.opencode/
+.github/
+AGENTS.md
