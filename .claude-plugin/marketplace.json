@@ -1,25 +1,25 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "uni-app-skills",
+  "name": "uni-app-devkit",
   "owner": {
     "name": "BluerAngala",
     "email": "1107117864@qq.com"
   },
   "metadata": {
-    "description": "uni-app 全流程开发规范：rules、skills、commands，覆盖页面开发、设计系统、云函数、跨端适配",
-    "version": "0.1.0",
+    "description": "uni-app 全流程开发规范：rules、skills、commands，覆盖页面开发、设计系统、云函数、跨端适配、i18n、性能优化",
+    "version": "0.2.0",
     "pluginRoot": "plugins"
   },
   "plugins": [
     {
-      "name": "uni-app-dev",
-      "description": "uni-app 管理后台全流程开发规范 — 编码约定、设计系统、页面脚手架、云函数规范",
-      "source": "./uni-app-dev",
+      "name": "uni-app-devkit",
+      "description": "uni-app 管理后台全流程开发规范 — 编码约定、设计系统、页面开发、云函数开发、页面脚手架、云函数脚手架",
+      "source": "./uni-app-devkit",
       "category": "development",
-      "homepage": "https://github.com/BluerAngala/uni-app-skills",
+      "homepage": "https://github.com/BluerAngala/uni-app-devkit",
       "license": "MIT",
-      "keywords": ["uni-app", "unicloud", "vue", "cross-platform", "admin"],
-      "commands": ["scaffold-page"],
+      "keywords": ["uni-app", "unicloud", "vue", "cross-platform", "admin", "devkit"],
+      "commands": ["scaffold-page", "scaffold-cloud"],
       "rules": ["uni-app-conventions", "uni-cloud-security"]
     }
   ]
