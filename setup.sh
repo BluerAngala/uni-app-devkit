@@ -33,7 +33,17 @@ if [[ "${1:-}" == "--uninstall" ]]; then
     ".github/skills/uni-app-style-system" ".github/skills/uni-app-page-dev" ".github/skills/uni-app-cloud-dev" \
     ".github/instructions/uni-app-conventions.instructions.md" \
     ".github/instructions/uni-cloud-security.instructions.md" \
-    ".github/instructions/uni-cross-platform.instructions.md"; do
+    ".github/instructions/uni-cross-platform.instructions.md" \
+    ".pi/skills/uni-app-style-system" \
+    ".pi/skills/uni-app-page-dev" \
+    ".pi/skills/uni-app-cloud-dev" \
+    ".pi/prompts/uni-code-review.md" \
+    ".opencode/skills/uni-app-style-system" \
+    ".opencode/skills/uni-app-page-dev" \
+    ".opencode/skills/uni-app-cloud-dev" \
+    ".opencode/commands/check-theme.md" \
+    ".opencode/commands/scaffold-page.md" \
+    ".opencode/commands/scaffold-cloud.md"; do
     if [ -L "$PROJECT_DIR/$target" ] || [ -d "$PROJECT_DIR/$target" ]; then
       rm -rf "$PROJECT_DIR/$target"
       info "  已移除 $target"
@@ -153,7 +163,42 @@ if [ -d "$PROJECT_DIR/.github" ]; then
   echo ""
 fi
 
-# ─── 6. 生成 AGENTS.md 入口（供 Codex / standalone AGENTS.md 发现） ───
+# ─── 6. Pi Agent (.pi/) ───
+info "Pi Agent (.pi/)"
+mkdir -p "$PROJECT_DIR/.pi"
+
+# skills
+for dir in "$PLUGIN_DIR/skills/"*/; do
+  name=$(basename "$dir")
+  link_content "$dir" "$PROJECT_DIR/.pi/skills/$name"
+done
+
+# prompts
+mkdir -p "$PROJECT_DIR/.pi/prompts"
+for f in "$PLUGIN_DIR/prompts/"*.md; do
+  link_content "$f" "$PROJECT_DIR/.pi/prompts/$(basename "$f")"
+done
+
+echo ""
+
+# ─── 7. OpenCode (.opencode/) ───
+info "OpenCode (.opencode/)"
+mkdir -p "$PROJECT_DIR/.opencode"
+
+# skills
+for dir in "$PLUGIN_DIR/skills/"*/; do
+  name=$(basename "$dir")
+  link_content "$dir" "$PROJECT_DIR/.opencode/skills/$name"
+done
+
+# commands
+for f in "$PLUGIN_DIR/commands/"*.md; do
+  link_content "$f" "$PROJECT_DIR/.opencode/commands/$(basename "$f")"
+done
+
+echo ""
+
+# ─── 8. 生成 AGENTS.md 入口（供 Codex / standalone AGENTS.md 发现） ───
 AGENTS_FILE="$PROJECT_DIR/AGENTS.md"
 if [ ! -f "$AGENTS_FILE" ]; then
   info "生成 AGENTS.md（Codex / agents-md 入口）"
@@ -197,5 +242,7 @@ info "  ✓ Agents — .agents/"
 info "  ✓ Codex — .codex/"
 info "  ✓ GitHub Copilot — .github/"
 info "  ✓ Standalone AGENTS.md — ./AGENTS.md"
+info "  ✓ Pi Agent — .pi/"
+info "  ✓ OpenCode — .opencode/"
 echo ""
 info "卸载: bash setup.sh --uninstall"

@@ -8,8 +8,9 @@ uni-app 全流程开发规范 — 一套规范，适配所有 AI agent 工具。
 |------|---------|---------|
 | **OMP** | `/marketplace install` | `.omp/` |
 | **Claude Code** | `/marketplace install` 或 setup.sh | `.claude/` |
+| **Pi Agent** | marketplace 或 setup.sh | `.omp/`（同 OMP） |
 | **Codex** | `bash setup.sh` | `.codex/` + `AGENTS.md` |
-| **OpenCode** | `bash setup.sh` | 符号链接到 `.omp/` |
+| **OpenCode** | `bash setup.sh` | `~/.config/opencode/`（用户级） |
 | **Agents** | `bash setup.sh` | `.agents/` |
 | **GitHub Copilot** | `bash setup.sh` | `.github/` |
 
