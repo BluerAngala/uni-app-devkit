@@ -18,15 +18,19 @@ tags: [uni-app, design-system, scss, theme, cross-platform]
 skills/uni-app-style-system/
 ├── SKILL.md                              ← 你在这里（通用规则）
 ├── references/
-│   ├── design-tokens.md                  ← Token 完整表（颜色/排版/间距/阴影/动效）
+│   ├── design-tokens.md                  ← Token 完整表
 │   ├── component-guide.md                ← 组件基础示例
-│   ├── visual-quality.md                 ← 视觉品质基准（间距/颜色/排版/卡片/按钮/状态）
-│   ├── premium-components.md             ← 高端组件模板（基础版 vs 高端版）
-│   ├── icon-upgrade.md                   ← 图标升级方案（iconfont/SVG 组件）
-│   ├── h5-design.md                      ← H5 端专属规范
-│   ├── h5-advanced-effects.md            ← H5 高级效果（毛玻璃/Grid/滚动动画/渐变）
-│   ├── miniprogram-design.md             ← 小程序端专属规范
-│   └── app-design.md                     ← App 端专属规范
+│   ├── visual-quality.md                 ← 视觉品质基准
+│   ├── premium-components.md             ← 高端组件模板
+│   ├── interaction-patterns.md           ← 交互模式（导航/搜索/表单/列表/反馈）
+│   ├── content-standards.md              ← 内容规范（文案/数字/日期/状态/错误信息）
+│   ├── graphics-assets.md                ← 图形资源（图标/插图/图片/Logo）
+│   ├── accessibility.md                  ← 无障碍（对比度/触控/焦点/键盘/ARIA）
+│   ├── icon-upgrade.md                   ← 图标升级方案
+│   ├── h5-design.md                      ← H5 端规范（响应式/管理系统布局）
+│   ├── h5-advanced-effects.md            ← H5 高级效果
+│   ├── miniprogram-design.md             ← 小程序端规范
+│   └── app-design.md                     ← App 端规范
 ```
 
 ## 通用规则（所有端必须遵守）

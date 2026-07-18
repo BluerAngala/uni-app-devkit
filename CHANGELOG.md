@@ -51,6 +51,10 @@
 - **reference:** `visual-quality.md` — 视觉品质基准（间距节奏/颜色品质/排版层级/卡片/按钮/状态设计）
 - **reference:** `premium-components.md` — 高端组件参考（卡片/列表/统计/按钮组/表单/标签栏 基础版 vs 高端版）
 - **reference:** `icon-upgrade.md` — 图标升级方案（iconfont 接入/SVG 组件/风格规范）
+- **reference:** `interaction-patterns.md` — 交互模式（导航/搜索筛选/表单/列表分页/反馈/批量操作/选择器）
+- **reference:** `content-standards.md` — 内容规范（文案风格/按钮文案/数字格式/日期格式/状态文案/空状态/错误信息/占位文本）
+- **reference:** `graphics-assets.md` — 图形资源（图标系统/空状态插图/图片处理/Logo/Favicon/目录结构）
+- **reference:** `accessibility.md` — 无障碍（色彩对比度/触控区域/焦点状态/键盘导航/ARIA/表单无障碍/图片无障碍/动态通知）
 - **check-theme** 支持 `.check-theme-ignore.json` 白名单配置
 - **cloud-security** 完整的频率限制代码示例和阈值建议
 
