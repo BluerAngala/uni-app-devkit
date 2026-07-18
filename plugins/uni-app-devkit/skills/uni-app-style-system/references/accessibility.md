@@ -292,25 +292,20 @@ input, textarea {
 
 ## 九、小程序无障碍
 
-小程序有自己的无障碍 API：
+小程序有自己独立的无障碍属性体系，**不支持 Web 标准 ARIA**。
 
-```vue
-<!-- 微信小程序无障碍属性 -->
-<view
-  aria-role="button"
-  aria-label="添加商品"
-  @click="add"
->
-  <uni-icons type="plusempty" />
-</view>
+| Web ARIA | 小程序替代 | 说明 |
+|----------|----------|------|
+| `role="button"` | `aria-role="button"` | 属性名不同 |
+| `aria-label` | `aria-label` | 相同 |
+| `aria-live` | ❌ 不支持 | 用条件编译 `#ifdef H5` |
+| `aria-expanded` | ❌ 不支持 | 用条件编译 |
+| `aria-describedby` | ❌ 不支持 | 用条件编译 |
+| `aria-invalid` | ❌ 不支持 | 用条件编译 |
+| `tabindex` | ❌ 不支持 | 小程序自动处理焦点 |
+| `@keydown` | ❌ 不支持 | 小程序无键盘事件 |
 
-<!-- 表单 -->
-<input
-  aria-role="textbox"
-  aria-label="搜索商品"
-  placeholder="搜索..."
-/>
-```
+**规则：** Web ARIA 属性必须用 `#ifdef H5` 保护，小程序端用 `aria-role` + `aria-label` 基础属性。
 
 ## 十、无障碍 Checklist
 

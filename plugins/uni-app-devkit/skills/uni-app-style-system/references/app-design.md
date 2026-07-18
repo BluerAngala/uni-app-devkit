@@ -18,7 +18,7 @@ uni-app App 端有两种页面文件：
 
 | 特性 | nvue | 替代 |
 |------|------|------|
-| `box-shadow` | ❌ | 用 `<view>` + 边框模拟 |
+| `box-shadow` | ⚠️ 仅 iOS | 用 `<view>` + 边框模拟 |
 | `border-radius` | ⚠️ 仅 `<view>` | 用 `<view>` 包裹 |
 | `position: sticky` | ❌ | 用 `scroll` + 固定定位 |
 | CSS `transition` | ❌ | 用 `animation` 模块 |

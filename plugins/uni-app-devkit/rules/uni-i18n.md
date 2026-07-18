@@ -167,12 +167,13 @@ export function formatDate(timestamp, format = 'date') {
  * 格式化货币（跟随当前语言）
  */
 export function formatCurrency(amount, currency = 'CNY') {
-  const locale = uni.getStorageSync('app_language') || 'zh-Hans'
-  const langMap = { 'zh-Hans': 'zh-CN', 'zh-Hant': 'zh-TW', en: 'en-US' }
-  return new Intl.NumberFormat(langMap[locale] || 'zh-CN', {
-    style: 'currency',
-    currency,
-  }).format(amount / 100)  // 假设存储单位为分
+  const symbolMap = { CNY: '\u00a5', USD: '$', EUR: '\u20ac', GBP: '\u00a3' }
+  const symbol = symbolMap[currency] || currency
+  const value = (amount / 100).toFixed(2)
+  // 简单千分位格式化（三端兼容，不依赖 Intl）
+  const parts = value.split('.')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return symbol + parts.join('.')
 }
 ```
 

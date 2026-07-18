@@ -43,7 +43,7 @@ alwaysApply: true
 ## 4. 样式
 
 - 单位用 `rpx`（响应式）或 `px`（固定），**禁止** `rem` / `vh` / `vw`
-- 颜色必须引用 `uni.scss` 变量或 `themed()` mixin，**禁止硬编码十六进制颜色值**
+- 颜色必须引用 `uni.scss` 变量或 `themeify` mixin，**禁止硬编码十六进制颜色值**
 - 不操作 DOM 样式，用数据驱动 `:class` / `v-if` / `:style`
 - 新增主题色：在 `uni.scss` 的 `$themes` map 中添加
 

@@ -48,7 +48,7 @@ description: "为 uni-admin 项目生成管理页面骨架（list/add/edit），
       </view>
     </template>
     <unicloud-db ref="udb" v-slot:default="{ data, pagination, loading, error }"
-      collection="<集合名>" :where="where" orderby="created_at desc"
+      collection="<集合名>" :where="where" orderby="create_date desc"
       :getcount="true" :page-size="20" :page-current="options.pageCurrent"
       loadtime="manual" @load="onqueryload">
       <uni-table ref="table" :loading="loading"
@@ -59,7 +59,7 @@ description: "为 uni-admin 项目生成管理页面骨架（list/add/edit），
           <uni-th>名称</uni-th>
           <uni-th>操作</uni-th>
         </uni-tr>
-        <uni-tr v-for="(item, index) in data" :key="index">
+        <uni-tr v-for="item in data" :key="item._id">
           <!-- 按字段生成列 -->
           <uni-td>{{ item.name }}</uni-td>
           <uni-td>
@@ -170,10 +170,16 @@ export default {
   },
   methods: {
     submit() {
+      if (this.submitting) return  // 防重复提交
       this.$refs.form.validate().then((res) => {
+        this.submitting = true
         db.collection('<集合名>').add(this.formData).then(() => {
           uni.showToast({ title: '新增成功' })
           setTimeout(() => uni.navigateBack(), 500)
+        }).catch((e) => {
+          uni.showToast({ title: e.message || '新增失败', icon: 'none' })
+        }).finally(() => {
+          this.submitting = false
         })
       })
     },

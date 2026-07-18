@@ -16,6 +16,7 @@
 | `nth-child` | ❌ | 用数据驱动 `:class` |
 | `box-shadow` spread | ❌ | 用边框模拟 |
 | `calc()` 混合 rpx+px | ⚠️ 不稳定 | 统一用 rpx |
+| flex `gap` | ❌ | 用 `margin` 替代 |
 | CSS 变量 `var()` | ⚠️ 基础库 2.x+ | 用 SCSS 变量更安全 |
 | `backdrop-filter` | ❌ | 用半透明背景色 |
 | `position: sticky` | ⚠️ 部分支持 | 用 `scroll-view` + 固定定位 |

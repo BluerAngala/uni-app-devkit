@@ -263,8 +263,8 @@ static/
 │   ├── logo.png
 │   ├── logo-white.png
 │   └── placeholder.png
-└── fonts/                  # 自定义字体（如有）
-    └── custom.woff2
+└── fonts/                  # 自定义字体（如有，用 .ttf 格式兼容性最好）
+    └── custom.ttf
 ```
 
 ## 七、图形资源 Checklist

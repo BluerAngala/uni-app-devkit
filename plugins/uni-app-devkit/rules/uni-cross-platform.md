@@ -104,10 +104,10 @@ uni.redirectTo({ url: '/pages/xxx/xxx' })
 
 ```scss
 // ✅ 推荐（dart-sass 已废弃 /deep/）
-::v-deep .uni-forms-item__label { color: #333; }
+::v-deep .uni-forms-item__label { color: $uni-text-color; }
 
 // ⚠️ 仅在 node-sass 环境下使用 /deep/
-/deep/ .uni-forms-item__label { color: #333; }
+/deep/ .uni-forms-item__label { color: $uni-text-color; }
 ```
 
 **注意：** HBuilderX 4.56+ Vue 2 项目默认使用 dart-sass 替代 node-sass，此时 `/deep/` 会报错，必须用 `::v-deep`。

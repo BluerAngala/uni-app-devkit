@@ -33,13 +33,13 @@ const dbCmd = db.command
 const uniID = require('uni-id-common')
 
 module.exports = {
-  _before() {
+  async _before() {
     // ⚠️ uni-id-common 必须先 createInstance
     this.uniIDIns = uniID.createInstance({ context: this })
     const token = this.getUniIdToken()
     if (!token) throw new Error('未登录')
-    // 验证 token 有效性
-    this.authInfo = this.uniIDIns.checkToken(token)
+    // 验证 token 有效性（checkToken 是异步，必须 await）
+    this.authInfo = await this.uniIDIns.checkToken(token)
   },
 
   _after(error, result) {
@@ -128,25 +128,44 @@ module.exports = {
 
 ```js
 const db = uniCloud.database()
+const uniID = require('uni-id-common')
 
 exports.main = async (event, context) => {
   const { action, params } = event
 
+  // 权限校验
+  const uniIDIns = uniID.createInstance({ context })
+  const token = event.uniIdToken
+  if (!token) return { code: 401, msg: '未登录' }
+  const authInfo = await uniIDIns.checkToken(token)
+
   switch (action) {
     case 'list': {
-      const { page = 1, pageSize = 20, where = '' } = params || {}
+      const { page = 1, pageSize = 20 } = params || {}
       let query = db.collection('<集合名>')
-      if (where) query = query.where(where)
       const res = await query.skip((page - 1) * pageSize)
         .limit(pageSize).orderBy('create_date', 'desc').get()
       return res.data
     }
-    case 'add':
-      return await db.collection('<集合名>').add(params)
-    case 'update':
-      return await db.collection('<集合名>').doc(params.id).update(params.data)
-    case 'remove':
-      return await db.collection('<集合名>').doc(params.id).remove()
+    case 'add': {
+      const data = params || {}
+      data.create_date = Date.now()
+      data.update_date = Date.now()
+      return await db.collection('<集合名>').add(data)
+    }
+    case 'update': {
+      const { id, data } = params || {}
+      if (!id) return { code: 400, msg: '缺少 id' }
+      delete data._id
+      delete data.create_date
+      data.update_date = Date.now()
+      return await db.collection('<集合名>').doc(id).update(data)
+    }
+    case 'remove': {
+      const { id } = params || {}
+      if (!id) return { code: 400, msg: '缺少 id' }
+      return await db.collection('<集合名>').doc(id).remove()
+    }
     default:
       return { code: 404, msg: '未知操作' }
   }

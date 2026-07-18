@@ -60,7 +60,7 @@ grep -rn --include="*.vue" --include="*.scss" -P '(?<![:\w])#(?:[0-9a-fA-F]{3}){
 ### 2. 扫描不合规单位
 
 ```bash
-grep -rn --include="*.vue" --include="*.scss" -E '(rem|100vh|100vw)' <目录> \
+grep -rn --include="*.vue" --include="*.scss" -E '(rem|[0-9]+vh|[0-9]+vw)' <目录> \
   | grep -v 'node_modules' \
   | grep -v 'uni_modules'
 ```
