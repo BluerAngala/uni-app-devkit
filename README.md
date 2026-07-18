@@ -16,7 +16,7 @@ uni-app 全流程开发规范 — OMP / Claude Code marketplace plugin。
 ### OMP
 
 ```
-/marketplace add Leonxlnx/uni-app-skills
+/marketplace add BluerAngala/uni-app-skills
 /marketplace install uni-app-dev@uni-app-skills
 ```
 

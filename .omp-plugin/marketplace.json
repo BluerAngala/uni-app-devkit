@@ -2,8 +2,8 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "uni-app-skills",
   "owner": {
-    "name": "Leonxlnx",
-    "email": "leonxlnx@gmail.com"
+    "name": "BluerAngala",
+    "email": "1107117864@qq.com"
   },
   "metadata": {
     "description": "uni-app 全流程开发规范：rules、skills、commands，覆盖页面开发、设计系统、云函数、跨端适配",
@@ -16,7 +16,7 @@
       "description": "uni-app 管理后台全流程开发规范 — 编码约定、设计系统、页面脚手架、云函数规范",
       "source": "./uni-app-dev",
       "category": "development",
-      "homepage": "https://github.com/Leonxlnx/uni-app-skills",
+      "homepage": "https://github.com/BluerAngala/uni-app-skills",
       "license": "MIT",
       "keywords": ["uni-app", "unicloud", "vue", "cross-platform", "admin"],
       "commands": ["scaffold-page"],
